@@ -1,0 +1,1014 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------
+%
+\documentclass{amsbook}%
+%
+%----------------------------------------------------------
+% This is a sample document for the AMS LaTeX Book or Monograph Class
+% Class options
+%       --  Body text point size:
+%                        8pt, 9pt, 10pt (default), 11pt, 12pt
+%       --  Paper size:  letterpaper (8.5x11 inch, default), a4paper
+%       --  Orientation: portrait(default), landscape
+%       --  Print side:  oneside, twoside (default)
+%       --  Quality:     final(default), draft
+%       --  Title page:  titlepage, notitlepage
+%       --  Start chapter on left:
+%                        openright (no, default), openany
+%       --  Columns:     onecolumn (default), twocolumn
+%       --  Omit extra math features:
+%                        nomath
+%       --  AMS fonts (noamasfonts available):
+%                        noamsfonts
+%       --  PSAMSfonts (fewer AMSfontsizes)
+%                        psamsfonts
+%       --  Equation numbering (equation numbers on the left is the default)
+%                        leqno (default), reqno
+%       --  Equation centering (equations centered is the default)
+%                        centeredtags (default}, tbtags (top, bottom)
+%       --  Displayed equations (centered is the default)
+%                        fleqn (flush left)
+% For instance the command
+%          \documentclass[a4paper,12p,reqno]{amsbook}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side.
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+%----------------------------------------------------------
+\theoremstyle{plain}
+\newtheorem{acknowledgement}{Acknowledgement}
+\newtheorem{algorithm}{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}{Case}
+\newtheorem{claim}{Claim}
+\newtheorem{conclusion}{Conclusion}
+\newtheorem{condition}{Condition}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{criterion}{Criterion}
+\newtheorem{definition}{Definition}
+\newtheorem{example}{Example}
+\newtheorem{exercise}{Exercise}
+\newtheorem{lemma}{Lemma}
+\newtheorem{notation}{Notation}
+\newtheorem{problem}{Problem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{solution}{Solution}
+\newtheorem{summary}{Summary}
+\newtheorem{theorem}{Theorem}
+\numberwithin{equation}{section}
+%-----------------------------------------------------------
+\begin{document}
+\frontmatter
+\title[Applied PDE Solutions]{Solutions Manual to Applied Partial Differential Equations}
+\author[S. Nash]{Stewart Nash}
+%\address[S. Nash]{362 Lowell Street%
+%\hspace*{\fill}\linebreak\indent%
+%Andover, MA 01810}%
+
+%\curraddr[P. Carlson]{Author One, current address, line 1
+%\hspace*{\fill}\linebreak
+%\indent Author One, current address, line 2}%
+\email[S. Nash]{pervigilent@gmail.com}
+%\urladdr{http://www.pervigilent.com}
+\urladdr{https://github.com/Pervigilent/applied\_pde\_solutions}
+%\thanks{The Author thanks DuChateau and Zachmann for such a good book. The internet for endless resources.}
+%\subjclass{Primary 05C38, 15A15; Secondary 05A15, 15A18}
+%\dedicatory{Dedicated to those who came before me and those who will come after.}
+
+%\begin{abstract}
+%This work consists of solutions to the exercises from the volume ``Applied Partial Differential Equations'' by Paul DuChateau and David Zachmann.
+%\end{abstract}
+\maketitle
+\tableofcontents
+
+\chapter*{Preface}
+
+\markboth{PREFACE}{PREFACE} This document consists of computer-based solutions to problems in ``Applied Partial Differential Equations'' by Paul DuChateau and David Zachmann.
+
+\mainmatter
+
+%\part{The First Part}
+
+\chapter{Mathematical Modeling and Partial Differential Equations}
+
+	\section{Mathematical Modeling of Physical Systems}
+
+	\section{Equation of Heat Conduction}
+		
+	\noindent\textbf{1}. Consider an infinitely long rod for which the parameters $K$, $\epsilon$, $\sigma$, $C$ are such that $\beta = 0.1$. Then equation (1.2.8*) becomes
+	\begin{equation}
+		u^{j+1}_n=0.1u^j_{n+1}+0.8u^j_n+0.1u^j_{n-1}
+	\end{equation}
+	Suppose
+	\begin{equation}
+		u^0_n
+		\begin{cases}
+			1 & \text{for $n=4,5,6$}\\
+			0 & \text{for all other $n$}
+		\end{cases}
+	\end{equation}
+	Then use (1.2.8*) and this initial condition to compose $u^j_n$ for $n=-5,\dots,5$ for $j=1,\dots,5$. For each value of $j$, for how many $n$ is $u^j_n$ different from zero?
+	\\[12pt]
+
+	\noindent\textbf{2.} Repeat Exercise 1 for the situation in which the rod is of finite length $L$ with $10\epsilon=L$. Suppose
+	\begin{equation}
+		u^j_0=1\,\text{and}\quad u^j_{10}=-1\quad\text{for all}\,j>0
+	\end{equation}
+	and
+	\begin{equation}
+		u^0_n=0\quad\text{for all}\,n
+	\end{equation}
+	Then use (1.2.8*) to compute $u^j_n$ for $n=1,\ldots,9$ and $j=1,\ldots,5$.
+	\\[12pt]
+\begin{small}
+\begin{verbatim}
+import numpy as np
+import matplotlib.pyplot as plt
+
+N = 10 # Length of rod
+T = 5 # Duration of simulation
+
+def matrix_power(x, n):
+    y = x.copy()
+    if n > 1:
+        for i in np.arange(n - 1):
+            y = np.matmul(y, x)
+    return y
+
+coefficients = np.zeros((N, N))
+for i in np.arange(N):
+    if i == 0:
+        coefficients[i, 0]  = 1
+    elif i == N - 1:
+        coefficients[i, N - 1] = 1
+    else:
+        coefficients[i, i - 1] = 0.1
+        coefficients[i, i] = 0.8
+        coefficients[i, i + 1] = 0.1
+
+initial_conditions = np.zeros((N, 1))
+initial_conditions[0, 0] = 1
+initial_conditions[N - 1, 0] = -1
+y = [np.squeeze(np.transpose(np.matmul(matrix_power(coefficients, i),\
+	initial_conditions))) for i in np.arange(T)]
+
+length_intervals = np.arange(N)
+plt.figure()
+for i in np.arange(T):
+    plt.plot(length_intervals, y[i])
+plt.show()
+print("The number of non-zero elements is {0}.".format(\
+	np.count_nonzero(y[T - 1] != 0)))
+\end{verbatim}
+\end{small}
+
+	\section{Steady-State Conduction of Heat}
+	
+	\section{Transmission Line Equations}
+	
+	\section{Well-Posed Problems}
+	
+	\section{Classification of Equations}
+
+\chapter{Fourier Series and Eigenfunction Expansions}
+
+	\section{Fourier Series}
+	
+	\section{Generalized Fourier Series}
+	
+	\section{Sturm-Liouville Problems}
+	
+		\noindent\textbf{1.} Compute all the eigenvalues and corresponding eigenfunctions for the following Sturm-Liouville problems:\\
+		\textbf{(a)} $-u''(x)=\mu u(x),\,u(0)=u'(1)=0$\\
+		\textbf{(b)} $-v''(x)=\mu v(x),\,v(0)=v(2)=0$\\
+		\textbf{(c)} $-w''(x)=\mu w(x),\,w'(0)=w(1)=0$\\
+		\textbf{(d)} $-z''(x)=\mu z(x),\,z'(0)=z'(2)=0$
+		\\[12pt]
+		\textbf{(a)} $\mu_n=[(n-\frac{1}{2})\pi]^2,\,u_n(x)=\sin{(n-\frac{1}{2})\pi x},\,n=1,2,\ldots$\\
+		\textbf{(b)} $\mu_n=[n\pi/2]^2,\,u_n(x)=\sin{(n\pi/2)x},\,n=1,2,\ldots$\\
+		\textbf{(c)} $\mu_n=[(n-\frac{1}{2})\pi]^2,\,u_n(x)=\cos{(n-\frac{1}{2})\pi x},\,n=0,1,2,\ldots$\\
+		\textbf{(d)} $\mu_0=0,\,\mu_n=[n\pi/2]^2,\,u_0(x)=\sqrt{\frac{1}{2}},\,u_n(x)=\cos{(n\pi/2)x},\,n=1,2,\ldots$
+		\\[12pt]		
+	
+	
+	\section{Discrete Fourier Series}
+	
+	\section{Function Space $L^2$}
+	
+	\section{Multiple Fourier Series}
+	
+	\section{Summary}
+
+\chapter{Boundary-Value Problems and Initial-Boundary-Value Problems on Spatially Bounded Domains}
+
+	\section{Boundary-Value Problems for Laplace and Poisson Equations}
+	
+	\section{Evolution Equations: Initial-Boundary-Value Problems for Heat Equation}
+	
+	\section{Evolution Equations: Initial-Boundary-Value Problems for Wave Equation}
+
+\chapter{Integral Transforms}
+	
+	\section{Function Space $L^2(a,b)$ when $(a,b)$ is Unbounded}
+	
+	\section{The Fourier Transform}
+
+		\noindent\textbf{1.} Compute the Fourier transform of the following functions:\\
+		\textbf{(a)}
+		\begin{equation*}
+			f(x)=
+			\begin{cases}
+				4 & \mathrm{if}\,3<x<7\\
+				0 & \mathrm{otherwise}
+			\end{cases}
+		\end{equation*}
+		\textbf{(b)}
+		\begin{equation*}
+			g(x)=xI_2(x)=
+			\begin{cases}
+				x & |x|<2\\
+				0 & |x|>2
+			\end{cases}
+		\end{equation*}
+		\textbf{(c)}
+		\begin{equation*}
+			h(x)=
+			\begin{cases}
+				x-1 & \mathrm{if} 0<x<2\\
+				0 & \mathrm{otherwise}
+			\end{cases}
+		\end{equation*}
+		\\[12pt]		
+		Compute the transform in two ways: first, using the definition and, second, using the result of Example 4.2.1(a) together with the shifting properties of Proposition 4.2.3. For $f$, $g$, and $h$ compute
+		\begin{equation*}
+			\|f\|^2=\int_{-\infty}^\infty{|f(x)|^2\,dx}
+		\end{equation*}
+		
+		\textbf{(a)}
+		\begin{equation*}
+			F(\omega)=\frac{}{\pi\omega}-\frac{}{\pi\omega}
+		\end{equation*}
+		\textbf{(b)}
+		\begin{equation*}
+			F(\omega)=\frac{}{}-\frac{}{}
+		\end{equation*}
+		\textbf{(c)}
+		\begin{equation*}
+			F(\omega)=\frac{}{}-\frac{}{}
+		\end{equation*}
+		\\[12pt]			
+	
+	\section{The Laplace Transform}
+
+\chapter{Boundary-Value Problems and Initial-Boundary Value Problems on Unbounded Domains}
+
+	\section{Elementary Examples on $(-\infty,\infty)$}
+	
+	\section{Examples on Semibounded Regions}
+	
+	\section{Inhomogeneous Equations}
+	
+	\section{Duhamel's Principle}
+
+\chapter{Uniqueness and Continuous Dependence on Data}
+
+	\section{Well-Posed Problems in Partial Differential Equations}
+	
+	\section{Green's Identities and Energy Inequalities}
+	
+	\section{Maximum-Minimum Principles}
+
+\chapter{First-Order Equations}
+
+	\section{Constant-Coefficient Advection Equation}
+	
+	\section{Linear and Quasi-linear Equations}
+	
+	\section{Conservation Law Equations}
+	
+	\section{Generalized Solutions}
+	
+	\section{Applications of Scalar Conservation Laws}
+	
+	\section{Systems of First-Order Equations}
+
+\chapter{Finite Difference Methods for Parabolic Equations}
+
+	\section{Difference Formulas}
+	
+	\section{Finite-Difference Equations for $u_t-a^2u_{xx}=S$}
+
+	\section{Computational Methods}
+	
+		\noindent\textbf{4.} Use Algorithm 8.1 to approximate the solution of the initial-boundary-value problem
+		\begin{align}
+			u_t-u_{xx}=-2e^{x-t}, & 0<x<1,\, t>0\\
+			u(x,0)=e^x, & 0<x<1\\
+			u(0,t)=e^{-t}, u(1,t)=e^{1-t}, & t>0
+		\end{align}
+		\textbf{(a)} Choose $k=0.0025$ and $nmax=9$ (so $h=0.1$) and compare the numerical and exact solutions, $u(x,t)=e^{x-t}$, at time $t=0.5$.\\
+		\textbf{(b)} Choose $k=0.01$ and $nmax=9$ and explain the numerical results.
+		\\[12pt]
+\begin{small}
+\begin{verbatim}
+import numpy as np
+
+# Forward Difference Method - Dirichlet Initial-Boundary-Value Problem
+def algorithm_8_1(diffusivity,
+                  endpoint,
+                  time_step,
+                  number_of_time_steps,
+                  number_of_nodes,
+                  right_side,
+                  initial_condition,
+                  boundary_condition_left,
+                  boundary_condition_right):
+    # Define a grid
+    increment = endpoint / (number_of_nodes + 1)
+    coefficient_r = diffusivity * time_step / increment ** 2
+    if coefficient_r > 0.5:
+        print("WARNING: algorithm_8_1 is unstable")
+        
+    # Initialize numerical solution
+    t = np.zeros((number_of_time_steps + 1,))
+    #x = np.zeros((1, number_of_nodes + 2))
+    x = np.zeros((number_of_nodes + 2,))
+    x[0] = 0
+    #V = np.zeros((1, number_of_nodes + 2))
+    V = np.zeros((number_of_nodes + 2,))
+    V[0] = (boundary_condition_left(0) + initial_condition(0)) / 2
+    for n in np.arange(number_of_nodes):
+        x[n + 1] = x[n] + increment
+        V[n + 1] = initial_condition(x[n + 1])
+    x[number_of_nodes + 1] = endpoint
+    V[number_of_nodes + 1] = (boundary_condition_right(0) + \
+    	initial_condition(endpoint)) / 2
+
+    # Begin time stepping
+    #U = np.zeros((1, number_of_nodes + 2))
+    U = np.zeros((number_of_nodes + 2,))    
+    for j in np.arange(number_of_time_steps):
+        # Advance solution one time step
+        for n in np.arange(number_of_nodes):
+            U[n + 1] = coefficient_r * V[n]
+            U[n + 1] += (1 -  2 * coefficient_r) * V[n + 1]
+            U[n + 1] += coefficient_r * V[n + 2]
+            U[n + 1] += time_step * right_side(x[n + 1], t[j])
+        t[j + 1] = t[j]  + time_step
+        U[0] = boundary_condition_left(t[j + 1])
+        U[number_of_nodes + 1] = boundary_condition_right(t[j + 1])        
+        # Output numerical solution
+        # Prepare for next time step
+        for n in np.arange(number_of_nodes + 2):
+            V[n] = U[n]
+            
+    #x = x[1:-1]
+    t = t[:-1]
+            
+    return U, x, t
+
+import math
+
+# right_side
+def S(x, t):
+    return -2.0 * math.e ** (x - t)
+
+# initial_condition
+def f(x):
+    return math.e ** x
+
+# boundary_condition_left
+def p(t):
+    return  math.e ** -t
+
+# boundary_condition_right
+def q(t):
+    return math.e ** (1 - t)
+
+# exact_answer	
+def u(x, t):
+	return math.e ** (x - t)
+
+a2 = 1 # diffusivity
+L = 1 # endpoint
+k = 0.0025 # time_step
+nmax = 9 # number_of_nodes
+end_time = 0.5
+jmax = int(end_time / k) # number_of_time_steps
+
+numerical_answer, x, t = algorithm_8_1(a2,
+                       L,
+                       k,
+                       jmax,
+                       nmax,
+                       S,
+                       f,
+                       p,
+                       q)
+exact_answer = 	u(x, t[-1])
+answer_error = (numerical_answer - exact_answer) / (exact_answer)
+answer_error = answer_error * 100
+
+from matplotlib import pyplot as plt
+
+fig, ax1 = plt.subplots()
+
+ax1.set_xlabel('Position')
+ax1.set_ylabel('Temperature')
+ax1.plot(x, numerical_answer, 'r', label='Numerical Solution')
+ax1.plot(x, exact_answer, 'g', label='Exact Solution')
+
+ax2 = ax1.twinx()
+ax2.set_ylabel('Percent Error')
+ax2.plot(x, answer_error, 'b', label='Percent Error')
+
+ax1.legend()
+ax2.legend()
+
+plt.show()
+\end{verbatim}
+\end{small}
+		
+		\noindent\textbf{5.} Use Algorithm 8.3 or 8.4 to approximate the solution of the initial-boundary-value problem 
+		\begin{align}
+			u_t-u_{xx}=-2e^{x-t}, & 0<x<1,\, t>0\\
+			u(x,0)=e^x, & 0<x<1\\
+			u(0,t)=e^{-t}, u(1,t)=e^{1-t}, & t>0
+		\end{align}
+		\textbf{(a)} Choose $k=0.0025$ and $nmax=9$ (so $h=0.1$) and compare the numerical and exact solutions, $u(x,t)=e^{x-t}$, at time $t=0.5$.\\
+		\textbf{(b)} Choose $k=0.01$ and $nmax=9$ and compare the numerical and exact solutions at time $t=0.5$.\\
+		\textbf{(c)} Choose $k=0.01$ and $nmax=99$ (so $h=0.01$) and compare the numerical and exact solutions at time $t=0.5$ at the positions $x=0.1,0.2,\ldots ,0.9$.
+		\\[12pt]
+
+\begin{small}
+\begin{verbatim}
+import numpy as np
+
+# Solution of a Tridiagonal Linear System
+def algorithm_8_2(a, # subdiagonal
+                 b, # diagonal
+                 c, # superdiagonal
+                 d, # right-hand side
+                 number_of_nodes=None):
+    if number_of_nodes is None:
+        number_of_nodes = d.size
+    # Forward substitute to eliminate subdiagonal
+    for n in np.arange(number_of_nodes - 1):
+        ratio = a[n + 2] / b[n + 1]
+        b[n + 2] = b[n + 2] - ratio * c[n + 1]
+        d[n + 2] = d[n + 2] - ratio * d[n + 1]
+    # Back substitude and store in solution array in d
+    d[number_of_nodes] = d[number_of_nodes] / b[number_of_nodes]
+    for l in np.arange(number_of_nodes - 1):
+        n = number_of_nodes - (l + 1)
+        d[n] = (d[n] - c[n] * d[n + 1]) / b[n]
+    return d
+        
+# Backward Difference Method - Dirichlet Initial-Boundary-Value Problem
+def algorithm_8_3(diffusivity,
+                  endpoint,
+                  time_step,
+                  number_of_time_steps,
+                  number_of_nodes,
+                  right_side,
+                  initial_condition,
+                  boundary_condition_left,
+                  boundary_condition_right):
+    # Define a grid
+    increment = endpoint / (number_of_nodes + 1)
+    coefficient_r = diffusivity * time_step / increment ** 2
+        
+    # Initialize numerical solution
+    t = np.zeros((number_of_time_steps + 1,))
+    x = np.zeros((number_of_nodes + 2,))
+    x[0] = 0
+    U = np.zeros((number_of_nodes + 2,))
+    U[0] = (boundary_condition_left(0) + initial_condition(0)) / 2
+    for n in np.arange(number_of_nodes):
+        x[n + 1] = x[n] + increment
+        U[n + 1] = initial_condition(x[n + 1])
+    U[number_of_nodes + 1] = (boundary_condition_right(0) + \
+    	initial_condition(endpoint)) / 2
+    x[number_of_nodes + 1] = endpoint
+
+    term_a = np.zeros((number_of_nodes + 2,))
+    term_b = np.zeros((number_of_nodes + 2,))
+    term_c = np.zeros((number_of_nodes + 2,))
+    term_d = np.zeros((number_of_nodes + 2,))    
+    # Begin time stepping  
+    for j in np.arange(number_of_time_steps):
+        # Define tridiagonal system
+        t[j + 1] = t[j]  + time_step
+        for n in np.arange(number_of_nodes):
+            term_a[n + 1] = - coefficient_r
+            term_b[n + 1] = 1 + 2 * coefficient_r
+            term_c[n + 1] = - coefficient_r
+            term_d[n + 1] = U[n + 1] + time_step * right_side(x[n + 1], t[j + 1])
+        term_d[1] = term_d[1] + coefficient_r * boundary_condition_left(t[j + 1])
+        term_d[number_of_nodes] = term_d[number_of_nodes] + \ 
+        	coefficient_r * boundary_condition_right(t[j + 1])
+        # Advance solution one time step
+        term_d = algorithm_8_2(term_a, term_b, term_c, term_d, number_of_nodes)
+        for n in np.arange(number_of_nodes):
+            U[n + 1] = term_d[n + 1]
+        U[0] = boundary_condition_left(t[j + 1])        
+    # Output numerical solution        
+    U[0] = boundary_condition_left(t[j + 1])
+    U[number_of_nodes + 1] = boundary_condition_right(t[j + 1])
+            
+    return U, x, t
+
+import math
+
+# right_side
+def S(x, t):
+    return -2.0 * math.e ** (x - t)
+
+# initial_condition
+def f(x):
+    return math.e ** x
+
+# boundary_condition_left
+def p(t):
+    return  math.e ** -t
+
+# boundary_condition_right
+def q(t):
+    return math.e ** (1 - t)
+
+# exact_answer	
+def u(x, t):
+	return math.e ** (x - t)
+
+a2 = 1 # diffusivity
+L = 1 # endpoint
+k = 0.0025 # time_step
+nmax = 9 # number_of_nodes
+end_time = 0.5
+jmax = int(end_time / k) # number_of_time_steps
+
+numerical_answer, x, t = algorithm_8_3(a2,
+                       L,
+                       k,
+                       jmax,
+                       nmax,
+                       S,
+                       f,
+                       p,
+                       q)
+exact_answer = u(x, t[-1])
+answer_error = (numerical_answer - exact_answer) / (exact_answer)
+answer_error = answer_error * 100
+
+from matplotlib import pyplot as plt
+
+fig, ax1 = plt.subplots()
+
+ax1.set_xlabel('Position')
+ax1.set_ylabel('Temperature')
+ax1.plot(x, numerical_answer, 'r', label='Numerical Solution')
+ax1.plot(x, exact_answer, 'g', label='Exact Solution')
+
+ax2 = ax1.twinx()
+ax2.set_ylabel('Percent Error')
+ax2.plot(x, answer_error, 'b', label='Percent Error')
+
+ax1.legend()
+ax2.legend()
+
+plt.show()
+\end{verbatim}
+\end{small}
+	
+		\noindent\textbf{6.} Use Algorithm 8.5 to approximate the solution of the initial-boundary-value problem 
+		\begin{align}
+			u_t-u_{xx}=-2e^{x-t}, & 0<x<1,\, t>0\\
+			u(x,0)=e^x, & 0<x<1\\
+			u(0,t)=e^{-t}, u(1,t)=e^{1-t}, & t>0
+		\end{align}
+		\textbf{(a)} Choose $k=0.0025$ and $nmax=9$ (so $h=0.1$) and compare the numerical and exact solutions, $u(x,t)=e^{x-t}$, at time $t=0.5$.\\
+		\textbf{(b)} Choose $k=0.01$ and $nmax=9$ and compare the numerical and exact solutions at time $t=0.5$.\\
+		\textbf{(c)} Choose $k=0.01$ and $nmax=99$ (so $h=0.01$) and compare the numerical and exact solutions at time $t=0.5$.
+		\\[12pt]
+		
+
+\begin{small}
+\begin{verbatim}
+import numpy as np
+        
+# Backward Difference Method - Neumann Initial-Boundary-Value Problem
+def algorithm_8_5(diffusivity,
+                  endpoint,
+                  time_step,
+                  number_of_time_steps,
+                  number_of_nodes,
+                  right_side,
+                  initial_condition,
+                  boundary_condition_left,
+                  boundary_condition_right):
+    # Define a grid
+    increment = endpoint / (number_of_nodes - 1)
+    coefficient_r = diffusivity * time_step / increment ** 2
+        
+    # Initialize numerical solution
+    t = np.zeros((number_of_time_steps + 1,))
+    x = np.zeros((number_of_nodes + 1,))
+    x[0] = -increment
+    U = np.zeros((number_of_nodes + 1,)) 
+    for n in np.arange(number_of_nodes):
+        x[n + 1] = x[n] + increment
+        U[n + 1] = initial_condition(x[n + 1])
+
+    term_a = np.zeros((number_of_nodes + 1,))
+    term_b = np.zeros((number_of_nodes + 1,))
+    term_c = np.zeros((number_of_nodes + 1,))
+    term_d = np.zeros((number_of_nodes + 1,))    
+    # Begin time stepping  
+    for j in np.arange(number_of_time_steps):
+        # Define tridiagonal system
+        t[j + 1] = t[j]  + time_step
+        for n in np.arange(number_of_nodes):
+            term_a[n + 1] = - coefficient_r
+            term_b[n + 1] = 1 + 2 * coefficient_r
+            term_c[n + 1] = - coefficient_r
+            term_d[n + 1] = U[n + 1] + time_step * right_side(x[n + 1], t[j + 1])
+        term_d[1] = term_d[1] - \
+        	2 * increment * coefficient_r * boundary_condition_left(t[j + 1])
+        term_d[number_of_nodes] = term_d[number_of_nodes] + \
+        	2 * increment * coefficient_r * boundary_condition_right(t[j + 1])
+        term_c[1] = -2 * coefficient_r
+        term_a[number_of_nodes] = -2 * coefficient_r
+        # Advance solution one time step
+        term_d = algorithm_8_2(term_a, term_b, term_c, term_d, number_of_nodes)
+        for n in np.arange(number_of_nodes):
+            U[n + 1] = term_d[n + 1]   
+    # Output numerical solution
+
+    #t = t[:-1]
+    x = x[1:]
+    U = U[1:]
+            
+    return U, x, t
+
+import math
+
+# right_side
+def S(x, t):
+    return -2.0 * math.e ** (x - t)
+
+# initial_condition
+def f(x):
+    return math.e ** x
+
+# boundary_condition_left
+def p(t):
+    return  math.e ** -t
+
+# boundary_condition_right
+def q(t):
+    return math.e ** (1 - t)
+
+# exact_answer	
+def u(x, t):
+	return math.e ** (x - t)
+
+a2 = 1 # diffusivity
+L = 1 # endpoint
+k = 0.0025 # time_step
+nmax = 9 # number_of_nodes
+end_time = 0.5
+jmax = int(end_time / k) # number_of_time_steps
+
+numerical_answer, x, t = algorithm_8_5(a2,
+                       L,
+                       k,
+                       jmax,
+                       nmax,
+                       S,
+                       f,
+                       p,
+                       q)
+exact_answer = u(x, t[-1])
+answer_error = (numerical_answer - exact_answer) / (exact_answer)
+answer_error = answer_error * 100
+
+from matplotlib import pyplot as plt
+
+fig, ax1 = plt.subplots()
+
+ax1.set_xlabel('Position')
+ax1.set_ylabel('Temperature')
+ax1.plot(x, numerical_answer, 'r', label='Numerical Solution')
+ax1.plot(x, exact_answer, 'g', label='Exact Solution')
+
+ax2 = ax1.twinx()
+ax2.set_ylabel('Percent Error')
+ax2.plot(x, answer_error, 'b', label='Percent Error')
+
+ax1.legend()
+ax2.legend()
+
+plt.show()
+\end{verbatim}
+\end{small}
+
+	\section{Fourier's Method for Difference Equations}
+	
+		\noindent\textbf{5.} Given the initial-boundary-value problem
+		\begin{align}
+			u_t-u_{xx}=0, & 0<x<1,\, t>0\\
+			u(x,0)=x^2, & 0<x<1\\
+			u_x(0,t)=0=u_x(1,t), & t>0
+		\end{align}
+		and the grid $x_1=0$, $x_2=1/2$, and $x_3=1$, so $N=3$,\\
+		\textbf{(a)} Use the matrix $\mathbf{F}_2$ to formulate a forward-in-time difference system.\\
+		\textbf{(b)} Use the matrix $\mathbf{F}_2$ to formulate a backward-in-time difference system.\\
+		\textbf{(c)} Use the matrix $\mathbf{F}_2$ to formulate a Crank-Nicolson difference system.\\
+		\textbf{(d)} Use Fourier's method to solve the system (a).\\
+		\textbf{(e)} Use Fourier's method to solve the system (b).\\
+		\textbf{(f)} Use Fourier's method to solve the system (c).\\[12pt]
+
+\begin{small}
+\begin{verbatim}
+import numpy as np
+import math
+
+def node_points(endpoint, number_of_nodes):
+    increment = endpoint / (number_of_nodes - 1)
+    x = [i * increment for i in range(number_of_nodes)]
+    #x = np.array(x)
+    return x
+
+def eigenvalue(n, N):
+    return 2 * (1 - math.cos((n - 1) * math.pi / (N - 1)))
+
+# eigenvector Vn
+def eigenvector_v(n, N, L):
+    #x = [((i + 1) - 1) / (N - 1) for i in range(N)]
+    x = node_points(L, N) 
+    output = [math.cos((n - 1) * math.pi * y) for y in x]
+    output = np.array(output)
+    return output
+
+# eigenvector Wn
+def eigenvector_w(n, N, L):
+    #x = [((i + 1) - 1) / (N - 1) for i in range(N)]
+    x = node_points(L, N)
+    output = [2 * math.cos((n - 1) * math.pi * y) for y in x]
+    output[0] = output[0] / 2
+    output[-1] = output[-1] / 2
+    output = np.array(output)
+    return output
+
+# initial_condition
+def f(x):
+    return x ** 2
+
+def coefficients(N, initial_condition, L):
+    output = [coefficient(i + 1, N, initial_condition, L) for i in range(N)]
+    output = np.array(output)
+    return output
+    
+def coefficient(n, N, initial_condition, L):
+    x = node_points(L, N)
+    initial = [initial_condition(y) for y in x]
+    initial = np.array(initial)
+    output = np.dot(initial, eigenvector_w(n, N, L))
+    output = output / np.dot(eigenvector_v(n, N, L), eigenvector_w(n, N, L))
+    return output
+
+# Forward-in-time (FIT)
+# Neumann-Neumann (NN) Initial-Boundary-Value Problem
+def solve_nn_fit(endpoint,
+                  time_step,
+                  number_of_time_steps,
+                  number_of_nodes,
+                  right_side,
+                  initial_condition,
+                  boundary_condition_left,
+                  boundary_condition_right):
+    j = number_of_time_steps
+    increment = endpoint / (number_of_nodes - 1)
+    coefficient_r = time_step / increment ** 2
+    matrix_b = lambda number: 1 - coefficient_r * number
+    matrix_a = lambda number: 1
+    U = np.zeros((number_of_nodes,)) 
+    for n in np.arange(number_of_nodes):
+        l = eigenvalue(n + 1, number_of_nodes)
+        V = eigenvector_v(n + 1, number_of_nodes, endpoint)
+        c_n = coefficient(n + 1, number_of_nodes, initial_condition, endpoint)
+        U = U + (matrix_b(l) / matrix_a(l)) ** j * c_n * V   
+    return U
+
+# Backward-in-time (BIT)
+# Neumann-Neumann (NN) Initial-Boundary-Value Problem
+def solve_nn_bit(endpoint,
+                  time_step,
+                  number_of_time_steps,
+                  number_of_nodes,
+                  right_side,
+                  initial_condition,
+                  boundary_condition_left,
+                  boundary_condition_right):
+    U = np.zeros((number_of_nodes,))
+    return U
+
+# Crank-Nicolson (CN)
+# Neumann-Neumann (NN) Initial-Boundary-Value Problem
+def solve_nn_cn(endpoint,
+                  time_step,
+                  number_of_time_steps,
+                  number_of_nodes,
+                  right_side,
+                  initial_condition,
+                  boundary_condition_left,
+                  boundary_condition_right):
+    U = np.zeros((number_of_nodes,))
+    return U
+
+L = 1 # endpoint
+k = 0.0025 # time_step
+nmax = 3 # number_of_nodes
+end_time = 0.5
+jmax = int(end_time / k) # number_of_time_steps
+
+
+answer_a = solve_nn_fit(L,
+                  k,
+                  jmax,
+                  nmax,
+                  0,
+                  f,
+                  0,
+                  0)
+\end{verbatim}
+\end{small}
+		
+		\noindent\textbf{(a)}
+		\begin{align}
+			A(\mathbf{F}_2)\mathbf{U}^{j+1} & = B(\mathbf{F}_2)\mathbf{U}^j\\
+			\mathbf{U}^0 & = \mathbf{f}\\
+			c^0_n & = \frac{\mathbf{f}\cdot\mathbf{W}_n}{\mathbf{V}_n\cdot\mathbf{W}_n}\\
+			A(\lambda) & = 1\\
+			B(\lambda) & = 1-r\lambda
+		\end{align}
+		\textbf{(b)}
+		\begin{align}
+			A(\mathbf{F}_2)\mathbf{U}^{j+1} & = B(\mathbf{F}_2)\mathbf{U}^j\\
+			\mathbf{U}^0 & = \mathbf{f}\\
+			c^0_n & = \frac{\mathbf{f}\cdot\mathbf{W}_n}{\mathbf{V}_n\cdot\mathbf{W}_n}\\
+			A(\lambda) & = 1+r\lambda\\
+			B(\lambda) & = 1
+		\end{align}
+		\textbf{(c)}
+		\begin{align}
+			A(\mathbf{F}_2)\mathbf{U}^{j+1} & = B(\mathbf{F}_2)\mathbf{U}^j\\
+			\mathbf{U}^0 & = \mathbf{f}\\
+			c^0_n & = \frac{\mathbf{f}\cdot\mathbf{W}_n}{\mathbf{V}_n\cdot\mathbf{W}_n}\\
+			A(\lambda) & = 1+r\lambda/2\\
+			B(\lambda) & = 1-r\lambda/2
+		\end{align}
+				
+		\noindent\textbf{6.} Given the initial-boundary-value problem
+		\begin{align}
+			u_t-u_{xx}=0, & 0<x<1,\, t>0\\
+			u(x,0)=x^2, & 0<x<1\\
+			u_x(0,t)=0=u_x(1,t), & t>0
+		\end{align}
+		and the grid $x_1=0$, $x_2=1/3$, and $x_3=2/3$, so $N=3$,\\
+		\textbf{(a)} Use the matrix $\mathbf{F}_2$ to formulate a forward-in-time difference system.\\
+		\textbf{(b)} Use the matrix $\mathbf{F}_2$ to formulate a backward-in-time difference system.\\
+		\textbf{(c)} Use the matrix $\mathbf{F}_2$ to formulate a Crank-Nicolson difference system.\\
+		\textbf{(d)} Use Fourier's method to solve the system (a).\\
+		\textbf{(e)} Use Fourier's method to solve the system (b).\\
+		\textbf{(f)} Use Fourier's method to solve the system (c).\\[12pt]
+		
+		\noindent\textbf{(a)}
+		\begin{align}
+			A(\mathbf{F}_3)\mathbf{U}^{j+1} & = B(\mathbf{F}_3)\mathbf{U}^j\\
+			\mathbf{U}^0 & = \mathbf{f}\\
+			A(\lambda) & = 1\\
+			B(\lambda) & = 1-r\lambda\\			
+			c^j_n & = \frac{\mathbf{U}^j\cdot\mathbf{W}_n}{\mathbf{V}_n\cdot\mathbf{W}_n}\\
+			& = \left[\frac{B(\lambda_n)}{A(\lambda_n)}\right]^jc^0_n\\
+			& = \left[\frac{B(\lambda_n)}{A(\lambda_n)}\right]^j\frac{\mathbf{f}\cdot\mathbf{W}_n}{\mathbf{V}_n\cdot\mathbf{W}_n}\\
+			\mathbf{U}^j & = \sum_{n=0}^N{c^j_n\mathbf{V}_n}\\
+			& = \sum_{n=0}^N{\left[\frac{B(\lambda_n)}{A(\lambda_n)}\right]^jc^0_n\mathbf{V}_n}\\
+			& = \sum_{n=0}^N{(1-r\lambda_n)^{-j}c^0_n\mathbf{V}_n}\\
+		\end{align}
+		\textbf{(b)}
+		\begin{align}
+			A(\mathbf{F}_3)\mathbf{U}^{j+1} & = B(\mathbf{F}_3)\mathbf{U}^j\\
+			\mathbf{U}^0 & = \mathbf{f}\\
+			c^0_n & = \frac{\mathbf{f}\cdot\mathbf{W}_n}{\mathbf{V}_n\cdot\mathbf{W}_n}\\
+			A(\lambda) & = 1+r\lambda\\
+			B(\lambda) & = 1
+		\end{align}
+		\textbf{(c)}
+		\begin{align}
+			A(\mathbf{F}_3)\mathbf{U}^{j+1} & = B(\mathbf{F}_3)\mathbf{U}^j\\
+			\mathbf{U}^0 & = \mathbf{f}\\
+			c^0_n & = \frac{\mathbf{f}\cdot\mathbf{W}_n}{\mathbf{V}_n\cdot\mathbf{W}_n}\\
+			A(\lambda) & = 1+r\lambda/2\\
+			B(\lambda) & = 1-r\lambda/2
+		\end{align}		
+		
+		\noindent\textbf{7.} Given the initial-boundary-value problem
+		\begin{align}
+			u_t-u_{xx}=0, & 0<x<1,\, t>0\\
+			u(x,0)=x, & 0<x<1\\
+			u_x(0,t)=0=u_x(1,t), & t>0
+		\end{align}
+		and the grid $x_1=0$, $x_2=1/4, x_3=1/2, x_4=3/4$, and $x_5=1$, so $N=5$,\\
+		\textbf{(a)} Use the matrix $\mathbf{F}_2$ to formulate a forward-in-time difference system.\\
+		\textbf{(b)} Use the matrix $\mathbf{F}_2$ to formulate a backward-in-time difference system.\\
+		\textbf{(c)} Use the matrix $\mathbf{F}_2$ to formulate a Crank-Nicolson difference system.\\
+		\textbf{(d)} Use Fourier's method to solve the system (a).\\
+		\textbf{(e)} Use Fourier's method to solve the system (b).\\
+		\textbf{(f)} Use Fourier's method to solve the system (c).\\[12pt]
+		
+	\section{Stability of Finite-Difference Methods}
+	
+	\section{Difference Methods in Two Space Variables}
+	
+	\section{Conservation Law Difference Equations}
+	
+	\section{Material Balance Difference Equation in Two Space Variables}
+		
+\chapter{Numerical Solutions of Hyperbolic Equations}
+
+	\section{Difference Methods for a Scalar Initial-Value Problem}
+
+		\noindent\textbf{1.} Modify Algorithm 9.1 to implement\\
+		\textbf{(a)} FTBS method\\
+		\textbf{(b)} FTFS method\\
+		\textbf{(c)} Lax-Friedrichs method\\
+		\textbf{(d)} leapfrog method\\[12pt]
+		
+		\noindent\textbf{2.} Approximate the solution of the initial-value problem of Example 9.1.3 on the interval $0\leq x\leq 1$ for $0\leq t_j\leq 1.5$ with $h=0.1$ and $k=0.075$ using\\
+		\textbf{(a)} FTBS method\\
+		\textbf{(b)} Lax-Friederichs method\\
+		\textbf{(c)} leapfrog method\\[12pt]
+		
+		\noindent\textbf{3.} Repeat exercise 2 with $h=0.1$ and $k=0.1$.\\[12pt]
+		
+		\noindent\textbf{4.} Given the initial-value problem 
+		\begin{align}
+			u_x+u_t=2xt+x^2, & -\infty<x<\infty,\, t>0\\
+			u(x,0)=0, & -\infty<x<\infty\\
+		\end{align}
+		whose exact solution is $u(x,t)=x^2t$. Find the local truncation error for this problem when using
+		\textbf{(a)} FTBS method\\
+		\textbf{(b)} Lax-Wendroff method\\[12pt]
+		
+		\noindent\textbf{8.} Consider the initial-value problem
+		\begin{align}
+			u_x+u_t&=0, & -\infty<x<\infty,\, t>0\\
+			u(x,0)&=
+			\begin{cases}
+				1, & |x|<0.5,\\
+				0, & |x|\geq 0.5,
+			\end{cases} & -\infty<x<\infty
+		\end{align}
+		
+	\section{Difference Methods for a Scalar Initial-Boundary-Value Problem}
+	
+	\section{Scalar Conservation Laws}
+	
+	\section{Dispersion and Dissipation}
+	
+	\section{Systems of Equations}
+	
+	\section{Second-Order Equations}
+	
+	\section{Method of Characteristics}
+		
+\chapter{Finite-Difference Methods for Elliptic Equations}
+
+	\section{Difference Equations for Elliptic Equations}
+	
+	\section{Direct Solution of Linear Equations}
+	
+	\section{Fourier's Method}
+	
+	\section{Iterative Methods}
+	
+	\section{Convergence of Iterative Methods}
+			
+
+\backmatter
+
+\begin{thebibliography}{9}
+\bibitem {DuChateau}DuChateau, P., Zachmann, D. \textit{Applied Partial Differential Equations}, Dover Publications Inc,
+Mineola, New York, 1989
+
+\end{thebibliography}
+
+\end{document}
