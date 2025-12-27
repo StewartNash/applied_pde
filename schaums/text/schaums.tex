@@ -1,0 +1,48 @@
+\documentclass[11pt]{book}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{multirow}
+
+\newtheoremstyle{problem} % Style name
+	{10pt} % Space above
+	{10pt} % Space below
+	{\normalfont} % Body font
+	{} % Header font
+	{\bfseries} % Header font
+	{.} % Separator
+	{10pt} % Space after header
+	{} % Header text
+\theoremstyle{problem}
+\newtheorem{problem}{Problem}[chapter]
+
+\begin{document}
+
+\title{Partial Differential Equations}
+\author{Edited by Stewart Nash}
+\date{2026}
+
+\frontmatter
+
+\maketitle
+
+\chapter*{Preface}
+This material is taken from ``Schaum's Outline of Theory and Problems of Partial Differential Equations'' by Paul DuChateau and David W. Zachmann. The footnotes are taken from content gathered from Wikipedia.
+
+\tableofcontents
+
+\mainmatter
+
+\chapter{Difference Methods for Parabolic Equations}
+
+\section{Difference Equations}
+The various partial derivatives of a function $u(x,t)$ can be expressed as a \emph{difference quotient} plus a truncation error (T.E.).
+\begin{align}
+	u_t(x,t)&=\frac{u(x,t+k)-u(x,t)}{k}+\mathrm{T.E.}\\
+	\mathrm{T.E.}&=-\frac{k}{2}u_{tt}(x,\bar{t})\quad(t<\bar{t}<t+k)
+	\tag{Forward Difference for $u_t$}
+\end{align}
+
+\end{document}
