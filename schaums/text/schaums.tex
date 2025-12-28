@@ -3,6 +3,8 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{amsthm}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
 \usepackage{mathtools}
 \usepackage{multirow}
 
@@ -53,5 +55,47 @@ Methods similar to those given in Section 9.4 may be used to approximate smooth 
 	u_{tt}=c^2u_{xx}
 \end{equation}
 Let $(x_n,t_j)=(nh,jk)$ $(n,j=0,1,2,\dots)$ and write $s{\equiv}k/h$; we have as representatives of the two sorts of methods:
+
+\chapter{Variational Formulation of Boundary Value Problems}
+\section{Introduction}
+In certain cases, the solution of a boundary value problem for a PDE is also a solution of an associated calculus of variations problem.
+
+\chapter{Variational Approximation Methods}
+This chapter presents some techniques for constructing approximate solutions to boundary value problems. These techniques are based on the ideas of Chapter 12 and differ markedly from the finite-difference methods of Chapters 9, 10, and 11.
+
+\section{The Rayleigh-Ritz Procedure}
+This approximation procedure is limited to boundary value problems admitting the variational formulation ``Find $u*$ in $\mathscr{A}$ such that functional $J[u]$ is minimized over $\mathscr{A}$ by $u*$.'' It was seen in Chapter 12 that such boundary value problems arise in connection with self-adjoint elliptic PDEs.\\
+We suppose $\mathscr{A}$ to be some subset of $L^2(\Omega)$, where $\Omega$ denotes a bounded set in $\mathbb{R}^n$ with smooth boundary $S$ consisting of complementary portion $S_1$ and $S_2$. Specifically, we take $\mathscr{A}=\{u\,\mathrm{in}\,H^1(\Omega):\,u=g\,\mathrm{on}\,S_1\}$ for a given $g$ in $C(\bar{\Omega}$; the associated subspace of comparison functions is taken as $\mathscr{M}=\{v\,\mathrm{in}\,H^1(\Omega):v=0\,\mathrm{on}\,S_1\}$.\\
+Let $\phi_0$ denote an arbitrary function from $\mathscr{A}$ (e.g., $\phi_0=g$) and let $\phi_1,\dots,\phi_N$ denote $N$ linearly independent functions $\mathscr{M}$. Then,
+\begin{equation}
+	u_N(\mathbf{x})\equiv\phi_0(\mathbf{x})+\sum_{j=1}^N{c_j\phi_j(\mathbf{x})}
+\end{equation}
+belongs to $\mathscr{A}$ for \emph{all} choices of the constants $c_1,\dots,c_N$; we denote by $\mathscr{A}_N$ the subset of $\mathscr{A}$ consisting of all such functions $u_N$. Let $u_N^*$ denote the function in $\mathscr{A}_N$ that minimizes $J$ over $\mathscr{A}_N$. It can be shown that $u_N^*$ represents the best approximation, in the least-squares sense, from $\mathscr{A}_N$ to the exact solution $u^*$. This function $u_N^*$ is called the \emph{Rayleigh-Ritz approximation} to the solution of the boundary value problem.\\
+The minimization of $J$ over $\mathscr{A}_N$ is tantamount to the minimization over all $\mathbf{c}$ in $\mathbb{R}^N$ of the ordinary function
+\begin{equation}
+	H(c_1,\dots,c_N){\equiv}J\left[\phi_0+\sum_{j=1}^N{c_j\phi_j}\right]
+\end{equation}
+The minimizing constants $c_1^*,c_2^*,\dots,c_N^*$ must satisfy
+\begin{equation}
+	\frac{{\partial}H}{{\partial}c_m}(c_1,\dots,c_N)=0\quad(m=1,\dots,N)
+\end{equation}
+which is a system of $N$ equations in $N$ unknowns.\\
+The Rayleigh-Ritz procedure may also be applied to eigenvalue problems of the sort treated in Section 12.4. In any eigenvalue problem the boundary conditions are all homogeneous. Hence, we take $\phi_0{\equiv}0$ in (13.1) and minimize the Rayleigh quotient $J$ over the subspace $\mathscr{A}_N=\mathscr{M}_N$.
+
+\section{The Galerkin Procedure}
+This approximation method is employed when the boundary value problem admits only a weak formulation; e.g., in the case of a linear elliptic PDE containing odd-order derivates. In the event that conditions (12.24) hold in the weak formulation, so that a variational formulation also exists, it can be shown (see Problem 13.4(b)) that the Galerkin and Rayleigh-Ritz procedure coincide.\\
+Consider, then, a boundary value problem with the weak formulation ``Find $u^*$ in $\mathscr{A}$ such that $K[u^*,v]=F[v]$ for all $v$ in $\mathscr{M}$.'' Here we suppose that $\Omega$, $S$, $\mathscr{A}$, and $\mathscr{M}$ are as described in Section 13.1. Let $phi_1,\dots,\phi_N$ denote $N$ linearly independent \emph{trial functions} in $\mathscr{M}$ and let $\phi_0$ denote an arbitrary function in $\mathscr{A}$. As in the Rayleigh-Ritz procedure, we seek an approximation $u_N^*$ to the weak solution $u^*$ of the form (13.1). In addition, let $\psi_1,\dots,\psi_N$ denote $N$ linearly independent \emph{weight functions} in $\mathscr{M}$; these may or may not be the same as the trail functions. The Galerkin approximate solution is required to satisfy
+\begin{equation}
+	K[u_N^*,\psi_j]=F[\psi_j]\quad(j=1,\dots,N)
+\end{equation}
+This is a set of $N$ equations in the $N$ unknowns $c_1^*,\dots,c_N^*$.
+
+\chapter{The Finite Element Method: An Introduction}
+The success of the approximation methods presented in Chapter 13 is largely dependent on the selection of an effective collection of trial functions $\phi_j$ and/or weight functions $\psi_j$. If these functions are chosen from certain families of piecewise polynomials, called \emph{finite element spaces}, the following advantages are realized:
+\begin{enumerate}[(i)]
+	\item It is possible to deal in a systematic fashion with regions $\Omega$ having curved boundaries of rather arbitrary shape.
+	\item One can systematically estimate the accuracy of the approximate solution in terms of the adjustable parameters associated with the finite element family.
+	\item The coefficient matrix and data vector for the system of algebraic equations defining the approximate solution can be efficiently generated by computer.
+\end{enumerate}
 
 \end{document}
