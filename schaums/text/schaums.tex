@@ -32,6 +32,18 @@
 \theoremstyle{problem}
 \newtheorem{problem}{Problem}[chapter]
 
+\newtheoremstyle{theorem} % Style name
+	{10pt} % Space above
+	{10pt} % Space below
+	{\normalfont} % Body font
+	{} % Header font
+	{\bfseries} % Header font
+	{.} % Separator
+	{10pt} % Space after header
+	{} % Header text
+\theoremstyle{theorem}
+\newtheorem{theorem}{Theorem}[chapter]
+
 \begin{document}
 
 \title{Partial Differential Equations}
@@ -70,8 +82,38 @@ Let $(x_n,t_j)=(nh,jk)$ $(n,j=0,1,2,\dots)$ and write $s{\equiv}k/h$; we have as
 
 \chapter[Variational Formulation of BVP]{Variational Formulation of Boundary Value Problems}
 \section{Introduction}
-In certain cases, the solution of a boundary value problem for a PDE is also a solution of an associated calculus of variations problem.
+In certain cases, the solution of a boundary value problem for a PDE is also a solution of an associated calculus of variations problem. A typical problem in the calculus of variations is to find, for a function $u$ belonging a prescribed set $\mathscr{A}$, the extreme values of the integral expression
+\begin{equation}
+	J[u(\mathbf{x})]=\int_\Omega{F(\mathbf{x},u(\mathbf{x}),\mathbf{\nabla}u(\mathbf{x}))\,d\Omega}
+\end{equation}
+where $F$ denotes a given function. Hence we shall begin by describing some of the structure of the domain $\mathscr{A}$ of $J$.
 
+\section{The Function Space $L^2(\Omega)$}
+In Chapter 6 we considered the space $L^2(a,b)$ of functions $f(x)$ that are defined and square integrable on $(a,b)$ in $\mathbb{R}^1$. More generally, let let $\Omega$ denote a bounded region in $\mathbb{R}^n$ and consider the set $L^2(\Omega)$ of all real-valued functions $u(\mathbf{x})$ defined on $\Omega$ which satisfy
+\begin{equation}
+	\int_\Omega{u^2(\mathbf{x})\,d\Omega}<\infty
+\end{equation}
+Like $L^2(a,b)$, $L^2(\Omega)$ is a vector space over the real numbers, and the expected definition
+\begin{equation}
+	\langle{u,v}\rangle\equiv\int_\Omega{u(\mathbf{x})v(\mathbf{x})\,d\Omega}
+\end{equation}
+makes it an inner product space.\\
+A subset of $L^2(\Omega)$ is said to be a \emph{subspace} of $L^2(\Omega)$ if the subset is closed under the operation of forming linear combinations.
+\begin{example}
+	(a) For $k$ a nonnegative integer, the subset $C^k(\bar{\Omega})$ of all $u$ in $L^2(\Omega)$ which, together with all derivatives of order $k$ or less, are continuous on $\bar{\Omega}$ is a subspace of $L^2(\Omega)$. (b) Let $u_1,\dots,u_N$ denote $N$ elements of $L^2(\Omega)$. The subset $\mathscr{M}$ of all linear combinations of $u_1,\dots,u_N$ is a subspace of $L^2(\Omega)$---the subspace \emph{spanned} by the $u_i$. (c) For $m$ a positive integer, the subset $H^m(\Omega)$ of all $u$ in $L^2(\Omega)$ whose derivative of order $m$ or less are also in $L^2(\Omega)$ is a subspace of $L^2(\Omega)$.
+\end{example}
+A subspace $\mathscr{M}$ of $L^2(\Omega)$ is \emph{dense in} $L^2(\Omega)$ if for any $\epsilon>0$ and any $f$ in $L^2(\Omega)$ there exists a $v$ in $\mathscr{M}$ such that
+\begin{equation}
+	\|v-f\|^2=\int_\Omega{(v-f)^2\,d\Omega}<\epsilon
+\end{equation}
+i.e., if any $f$ in $L^2(\Omega)$ can be approximated with arbitrary precision in the least-squares sense by a function from $\mathscr{M}$.
+\begin{theorem}
+	For each positive integer $m$, the following subspaces are dense in $L^2(\Omega)$: $C^m(\bar{\Omega})$, $H^m(\Omega)$, and the set of all $u$ in $C^m(\bar{\Omega})$ such that $u=0$ on $S$, the boundary of $\Omega$.
+\end{theorem}
+\begin{theorem}
+	If $\mathscr{M}$ is a dense subspace in $L^2(\Omega)$ and if an element $u$ of $L^2(\Omega)$ satisfies $\langle{u,v}\rangle=0$ for all $v$ in $\mathscr{M}$, then $u=0$.
+\end{theorem}
+	
 \chapter{Variational Approximation Methods}
 This chapter presents some techniques for constructing approximate solutions to boundary value problems. These techniques are based on the ideas of Chapter 12 and differ markedly from the finite-difference methods of Chapters 9, 10, and 11.
 
