@@ -64,34 +64,89 @@ This material is taken from ``Schaum's Outline of Theory and Problems of Partial
 \chapter[DM for Parabolic Equations]{Difference Methods for Parabolic Equations}
 
 \section{Difference Equations}
-The various partial derivatives of a function $u(x,t)$ can be expressed as a \emph{difference quotient} plus a \emph{truncation error} $\mathcal{O}(k)$.
+%The various partial derivatives of a function $u(x,t)$ can be expressed as a \emph{difference quotient} plus a \emph{truncation error} $\mathcal{O}(k)$.
+The partial derivatives of a sufficiently smooth function $u(x,t)$ may be approximated by \emph{finite difference quotients}. Each such approximation consists of a discrete difference operator plus a \emph{truncation error}, which arises from neglecting higher-order terms in the Taylor expansion. 
+\subsection{Forward difference approximation of $u_t$}
+Using Taylor's theorem in time, we obtain the following approximation for $u_t$ and expression for the truncation error $R_t$
 \begin{align}
-	u_t(x,t)&= \frac{u(x,t+k)-u(x,t)}{k} + \mathcal{O}(k),\\
-	\mathcal{O}(k)&\equiv-\frac{k}{2}u_{tt}(x,\bar{t}),\qquad{t<\bar{t}<t+k}.
+	u_t(x,t)&=\frac{u(x,t+k)-u(x,t)}{k}+R_t(x,t),\\
+	R_t(x,t)&=-\frac{k}{2}u_{tt}(x,\bar{t}),\qquad{t<\bar{t}<t+k}.
 	\tag{Forward Difference for $u_t$}
 \end{align}
+If $u_{tt}$ is bounded, then
+\begin{equation*}
+	R_t(x,t)=\mathcal{O}(k)\qquad(k\rightarrow0)
+\end{equation*}
+\subsection{Centered difference approximation of $u_x$}
+Expanding in space about $x$, we obtain
 \begin{align}
-	u_x(x,t)&= \frac{u(x+h,t)-u(x-h,t)}{2h} + \mathcal{O}(h),\\
-	\mathcal{O}(h^2)&\equiv-\frac{h^2}{6}u_{xxx}(\bar{x},t),\qquad{x-h<\bar{x}<x+h}.
+	u_x(x,t)&=\frac{u(x+h,t)-u(x-h,t)}{2h}+R_x(x,t),\\
+	R_x(x,t)&=-\frac{h^2}{6}u_{xxx}(\bar{x},t),\qquad{x-h<\bar{x}<x+h}.
 	\tag{Centered Difference for $u_x$}
 \end{align}
-\begin{align}
-	u_{xx}(x,t)&= \frac{u(x+h,t)-2u(x,t)+u(x-h,t)}{h^2} + \mathcal{O}(h),\\
-	\mathcal{O}(h^2)&\equiv-\frac{h^2}{12}u_{xxxx}(\bar{x},t),\qquad{x-h<\bar{x}<x+h}.
-	\tag{Centered Difference for $u_xx$}
-\end{align}
-\begin{align}
-	u_{xt}(x,t)&= \frac{u(x+h,t+k)-u(x+h,t-k)-u(x-h,t+k)+u(x-h,t-k)}{4hk} + \mathcal{O}(h),\\
-	\mathcal{O}(h^2,k^2)&\equiv-\frac{h^2}{6}u_{xxxt}(\bar{x},\bar{t})-\frac{k^2}{6}u_{xttt}(\tilde{x},\tilde{t}),\qquad{x-h<\bar{x},\tilde{x}<x+h,t-k<\bar{t},\tilde{t}<t+k}.
-	\tag{Centered Difference for $u_xt$}
-\end{align}
-Usually it is only the order of magnitude of the truncation error which is of interest. A function $f(h)$ is said to be of the \emph{order of magnitude $g(h)$ as $h\rightarrow0$}, where $g$ is a nonnegative function, if
+If $u_{xxx}$ is bounded, then
 \begin{equation*}
-	\lim\limits_{h\rightarrow0}\frac{f(h)}{g(h)}=\mathrm{constant}
+	R_x(x,t)=\mathcal{O}(h^2)\qquad(h\rightarrow0)
 \end{equation*}
-In the \emph{$\mathcal{O}$-notation} we write $f(h)=\mathcal{O}(g(h))\,(h\rightarrow0)$. It is easy to see that if, as $h_1,h_2\rightarrow0$,$f_1=\mathcal{O}(g_1)$ and $f_2=\mathcal{O}(g_2)$, then $f_1+f_2=\mathcal{O}(g_1+g_2)$.
+\subsection{Centered difference approximation of $u_{xx}$}
+The second spatial derivative is approximated by
+\begin{align}
+	u_{xx}(x,t)&= \frac{u(x+h,t)-2u(x,t)+u(x-h,t)}{h^2}+R_{xx}(x,t),\\
+	R_{xx}(x,t)&=-\frac{h^2}{12}u_{xxxx}(\bar{x},t),\qquad{x-h<\bar{x}<x+h}.
+	\tag{Centered Difference for $u_{xx}$}
+\end{align}
+If $u_{xxxx}$ is bounded, then
+\begin{equation*}
+	R_{xx}(x,t)=\mathcal{O}(h^2)\qquad(h\rightarrow0)
+\end{equation*}
+\subsection{Centered difference approximation of $u_{xt}$}
+A centered approximation to $u_{xt}$ is given by
+%\begin{align}
+%	u_{xt}(x,t)&= \frac{u(x+h,t+k)-u(x+h,t-k)-u(x-h,t+k)+u(x-h,t-k)}{4hk} + \mathcal{O}(h),\\
+%	\mathcal{O}(h^2,k^2)&\equiv-\frac{h^2}{6}u_{xxxt}(\bar{x},\bar{t})-\frac{k^2}{6}u_{xttt}(\tilde{x},\tilde{t}),\qquad{x-h<\bar{x},\tilde{x}<x+h,t-k<\bar{t},\tilde{t}<t+k}.
+%	\tag{Centered Difference for $u_{xt}$}
+%\end{align}
+\begin{equation}
+	u_{xt}(x,t)=\frac{1}{4hk}
+	\begin{aligned}[t]
+		\bigl(&u(x+h,t+k)-u(x+h,t-k)\\
+		&-u(x-h,t+k)+u(x-h,t-k)\bigr)
+	\end{aligned}
+	+R_{xt}(x,t)
+	\tag{Centered Difference for $u_{xt}$}
+\end{equation}
+The truncation error has the form
+\begin{equation}
+	R_{xt}(x,t)=-\frac{h^2}{6}u_{xxxt}(\bar{x},\bar{t})-\frac{k^2}{6}u_{xttt}(\tilde{x},\tilde{t})
+\end{equation}
+where
+\begin{equation*}
+	x-h<\bar{x},\tilde{x}<x+h,{\qquad}t-k<\bar{t},\tilde{t}<t+k
+\end{equation*}
+If $u_{xxxt}$ and $u_{xttt}$ are bounded, then
+\begin{equation*}
+	R_{xt}(x,t)=\mathcal{O}(h^2+k^2)\qquad(h,k\rightarrow0).
+\end{equation*}
+\subsection{O-notation}
+%Usually it is only the order of magnitude of the truncation error which is of interest. A function $f(h)$ is said to be of the \emph{order of magnitude $g(h)$ as $h\rightarrow0$}, where $g$ is a nonnegative function, if
+%\begin{equation*}
+%	\lim\limits_{h\rightarrow0}\frac{f(h)}{g(h)}=\mathrm{constant}
+%\end{equation*}
+%In the \emph{$\mathcal{O}$-notation} we write $f(h)=\mathcal{O}(g(h))\,(h\rightarrow0)$. It is easy to see that if, as $h_1,h_2\rightarrow0$,$f_1=\mathcal{O}(g_1)$ and $f_2=\mathcal{O}(g_2)$, then $f_1+f_2=\mathcal{O}(g_1+g_2)$.
+Usually it is only the order of magnitude of the truncation error which is of interest. A function $f(h)$ is said to be of the \emph{order $g(h)$ as $h\rightarrow0$}, if there exist constants $C>0$ and $h_0>0$ such that
+\begin{equation*}
+	|f(h)|{\leq}C|g(h)|,\qquad0<|h|<h_0\mathrm{.}
+\end{equation*}
+In this case, we write
+\begin{equation*}
+	f(h)=\mathcal{O}(g(h))\qquad(h\rightarrow0)\mathrm{.}
+\end{equation*}
+If, as $h_1,h_2\rightarrow0$,$f_1=\mathcal{O}(g_1)$ and $f_2=\mathcal{O}(g_2)$, then
+\begin{equation*}
+	f_1+f_2=\mathcal{O}(g_1+g_2)\mathrm{.}
+\end{equation*}
 \begin{example}
-	For (9.1), the truncation error is $\mathcal{O}(k)\,(k\rightarrow0)$, provided $u_{tt}$ is bounded. For (9.2), the truncation error is $\mathcal{O}(h^2)\,(h\rightarrow0)$, provided $u_{xxx}$ is bounded. For (9.4), the truncation error is $\mathcal{O}(h^2+k^2)\,(h\rightarrow0)$, provided $u_{xxxt}$ and $u_{xttt}$ are bounded; we omit as understood the $(h,k\rightarrow0)$.
+	For (9.1), the truncation error is $\mathcal{O}(k)\,(k\rightarrow0)$, provided $u_{tt}$ is bounded. For (9.2), the truncation error is $\mathcal{O}(h^2)\,(h\rightarrow0)$, provided $u_{xxx}$ is bounded. For (9.4), the truncation error is $\mathcal{O}(h^2+k^2)\,(h\rightarrow0)$, provided $u_{xxxt}$ and $u_{xttt}$ are bounded; we omit as understood the limits $h\rightarrow0$ and $k\rightarrow0$.
 \end{example}
 
 \chapter[DM for Hyperbolic Equations]{Difference Methods for Hyperbolic Equations}
