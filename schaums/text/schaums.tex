@@ -64,12 +64,35 @@ This material is taken from ``Schaum's Outline of Theory and Problems of Partial
 \chapter[DM for Parabolic Equations]{Difference Methods for Parabolic Equations}
 
 \section{Difference Equations}
-The various partial derivatives of a function $u(x,t)$ can be expressed as a \emph{difference quotient} plus a truncation error (T.E.).
+The various partial derivatives of a function $u(x,t)$ can be expressed as a \emph{difference quotient} plus a \emph{truncation error} $\mathcal{O}(k)$.
 \begin{align}
-	u_t(x,t)&=\frac{u(x,t+k)-u(x,t)}{k}+\mathrm{T.E.}\\
-	\mathrm{T.E.}&=-\frac{k}{2}u_{tt}(x,\bar{t})\quad(t<\bar{t}<t+k)
+	u_t(x,t)&= \frac{u(x,t+k)-u(x,t)}{k} + \mathcal{O}(k),\\
+	\mathcal{O}(k)&\equiv-\frac{k}{2}u_{tt}(x,\bar{t}),\qquad{t<\bar{t}<t+k}.
 	\tag{Forward Difference for $u_t$}
 \end{align}
+\begin{align}
+	u_x(x,t)&= \frac{u(x+h,t)-u(x-h,t)}{2h} + \mathcal{O}(h),\\
+	\mathcal{O}(h^2)&\equiv-\frac{h^2}{6}u_{xxx}(\bar{x},t),\qquad{x-h<\bar{x}<x+h}.
+	\tag{Centered Difference for $u_x$}
+\end{align}
+\begin{align}
+	u_{xx}(x,t)&= \frac{u(x+h,t)-2u(x,t)+u(x-h,t)}{h^2} + \mathcal{O}(h),\\
+	\mathcal{O}(h^2)&\equiv-\frac{h^2}{12}u_{xxxx}(\bar{x},t),\qquad{x-h<\bar{x}<x+h}.
+	\tag{Centered Difference for $u_xx$}
+\end{align}
+\begin{align}
+	u_{xt}(x,t)&= \frac{u(x+h,t+k)-u(x+h,t-k)-u(x-h,t+k)+u(x-h,t-k)}{4hk} + \mathcal{O}(h),\\
+	\mathcal{O}(h^2,k^2)&\equiv-\frac{h^2}{6}u_{xxxt}(\bar{x},\bar{t})-\frac{k^2}{6}u_{xttt}(\tilde{x},\tilde{t}),\qquad{x-h<\bar{x},\tilde{x}<x+h,t-k<\bar{t},\tilde{t}<t+k}.
+	\tag{Centered Difference for $u_xt$}
+\end{align}
+Usually it is only the order of magnitude of the truncation error which is of interest. A function $f(h)$ is said to be of the \emph{order of magnitude $g(h)$ as $h\rightarrow0$}, where $g$ is a nonnegative function, if
+\begin{equation*}
+	\lim\limits_{h\rightarrow0}\frac{f(h)}{g(h)}=\mathrm{constant}
+\end{equation*}
+In the \emph{$\mathcal{O}$-notation} we write $f(h)=\mathcal{O}(g(h))\,(h\rightarrow0)$. It is easy to see that if, as $h_1,h_2\rightarrow0$,$f_1=\mathcal{O}(g_1)$ and $f_2=\mathcal{O}(g_2)$, then $f_1+f_2=\mathcal{O}(g_1+g_2)$.
+\begin{example}
+	For (9.1), the truncation error is $\mathcal{O}(k)\,(k\rightarrow0)$, provided $u_{tt}$ is bounded. For (9.2), the truncation error is $\mathcal{O}(h^2)\,(h\rightarrow0)$, provided $u_{xxx}$ is bounded. For (9.4), the truncation error is $\mathcal{O}(h^2+k^2)\,(h\rightarrow0)$, provided $u_{xxxt}$ and $u_{xttt}$ are bounded; we omit as understood the $(h,k\rightarrow0)$.
+\end{example}
 
 \chapter[DM for Hyperbolic Equations]{Difference Methods for Hyperbolic Equations}
 
