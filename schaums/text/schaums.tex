@@ -148,6 +148,21 @@ If, as $h_1,h_2\rightarrow0$,$f_1=\mathcal{O}(g_1)$ and $f_2=\mathcal{O}(g_2)$, 
 \begin{example}
 	For (9.1), the truncation error is $\mathcal{O}(k)\,(k\rightarrow0)$, provided $u_{tt}$ is bounded. For (9.2), the truncation error is $\mathcal{O}(h^2)\,(h\rightarrow0)$, provided $u_{xxx}$ is bounded. For (9.4), the truncation error is $\mathcal{O}(h^2+k^2)\,(h\rightarrow0)$, provided $u_{xxxt}$ and $u_{xttt}$ are bounded; we omit as understood the limits $h\rightarrow0$ and $k\rightarrow0$.
 \end{example}
+\subsection{Grid}
+A \emph{grid} or \emph{mesh} in the $xt$-plane is a set of points $(x_n,t_m)=(x_0+nh,t_0+mk)$, where $n$ and $m$ are integers and $(x_0,t_0)$ is a reference point. The $(x_n,t_m)$ are called \emph{grid points}, \emph{mesh points}, or \emph{nodes}. The positive numbers $h$ and $k$ are respectively the \emph{$x$} and \emph{$t$ grid spacings} or \emph{grid sizes}. If $h$ and $k$ are constants, the grid is called \emph{uniform}; if $h=k$ are constant, the grid is said to be \emph{square}. The compact subscript notation
+\begin{equation*}
+	u_{nm}{\equiv}u(x_n,t_m)
+\end{equation*}
+is convenient and widely used.
+\begin{example}
+	The difference formulas (9.1) and (9.3) may be written
+	\begin{align*}
+		u_t(x_n,t_m)&=\frac{u_{n,m+1}-u_{nm}}{k}+\mathcal{O}(k)\\
+		u_{xx}(x_n,t_m)&=\frac{u_{n+1,m}-2u_{nm}+u_{n,m+1}}{h^2}+\mathcal{O}(h^2)\\
+		&\equiv\frac{\delta_x^2u_{nm}}{h^2}+\mathcal{O}(h^2)
+	\end{align*}
+	where the \emph{difference operator} $\delta_x^2$ is the analog of the differential operator $\delta^2/{\delta}x^2$. We say that (9.1) is \emph{two-level} (in $t$) because it involves only two $m$-values, these being consecutive.
+\end{example}
 
 \chapter[DM for Hyperbolic Equations]{Difference Methods for Hyperbolic Equations}
 
