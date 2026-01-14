@@ -163,6 +163,25 @@ is convenient and widely used.
 	\end{align*}
 	where the \emph{difference operator} $\delta_x^2$ is the analog of the differential operator $\delta^2/{\delta}x^2$. We say that (9.1) is \emph{two-level} (in $t$) because it involves only two $m$-values, these being consecutive.
 \end{example}
+Let a region $\Omega$ in the $xt$-plane be covered by a grid, $(x_n,t_m)$. If all the derivatives in the PDE
+\begin{equation}
+	L[u]=f\qquad(x,t)\mathrm{in}\Omega
+\end{equation}
+are replaced by difference quotients, the result is the \emph{finite-difference equation}
+\begin{equation}
+	D[U_{nm}]=f_{nm}\qquad(x_n,t_m)\mathrm{in}\Omega
+\end{equation}
+The continuous problem (9.5) was \emph{differenced} or \emph{discretized} to produce the discrete problem (9.6), whose solution, $U_{nm}$, approximates $u(x,t)$ at the grid points.
+\section{Consistency and Convergence}
+If discretization is to provide a useful approximation, the solution to (9.5) should very nearly satisfy (9.6), when $h$ and $k$ are taken sufficiently small. The amount by which the solution to $L[u]=f$ fails to satisfy the difference equation is called the \emph{local truncation error}; it may be expressed as
+\begin{equation*}
+	R_{nm}{\equiv}D[u_{nm}]-f_{nm}
+\end{equation*}
+The difference equation (9.6) is said to be \emph{consistent with} the PDE (9.5) if
+\begin{equation}
+	\lim\limits_{h,k\rightarrow0}R_{nm}=0
+\end{equation}
+With the exception of the DuFort-Frankel method (Problem 9.10), all difference methods to be treated are consistent with their corresponding PDEs.\\
 
 \chapter[DM for Hyperbolic Equations]{Difference Methods for Hyperbolic Equations}
 
