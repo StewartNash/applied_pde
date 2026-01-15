@@ -182,6 +182,17 @@ The difference equation (9.6) is said to be \emph{consistent with} the PDE (9.5)
 	\lim\limits_{h,k\rightarrow0}R_{nm}=0
 \end{equation}
 With the exception of the DuFort-Frankel method (Problem 9.10), all difference methods to be treated are consistent with their corresponding PDEs.\\
+In addition to consistency, we want the accuracy of the approximation to improve as $h,k\rightarrow0$. If $U_{nm}$ is the exact solution to (9.6) and $u_{nm}$ is the solution of (9.5) evaluated at $(x_n,t_m)$, the \emph{discretization error} is defined as $U_{nm}-u_{nm}$. The difference method (9.6) is said to be \emph{convergent} if
+\begin{equation}
+	\lim\limits_{h,k\rightarrow0}|U_{nm}-u_{nm}|=0\qquad(x_n,t_m)\,\mathrm{in}\,\Omega
+\end{equation}
+It is possible for a difference method to be consistent but not convergent.
+\section{Stability}
+Let $U_{nm}$ satisfy (9.6), with initial values $U_{n0}$ and possibly boundary values prescribed. Let $V_{nm}$ be the solution to a perturbed difference system which differs only in the initial values, and write $V_{n0}{\equiv}U_{n0}+E_{n0}$. Then, assuming exact arithmetic, the initial perturbation, or ``error,'' $E_{n0}$, can be shown to propagate, with increasing $m$, according to the homogeneous difference equation
+\begin{equation*}
+	D[E_{nm}]=0
+\end{equation*}
+subject to homogeneous boundary conditions.
 
 \chapter[DM for Hyperbolic Equations]{Difference Methods for Hyperbolic Equations}
 
