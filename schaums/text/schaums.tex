@@ -193,6 +193,53 @@ Let $U_{nm}$ satisfy (9.6), with initial values $U_{n0}$ and possibly boundary v
 	D[E_{nm}]=0
 \end{equation*}
 subject to homogeneous boundary conditions.
+\section{Parabolic Equations}
+The one-dimensional diffusion equation
+\begin{equation}
+	u_t=\kappa^2u_{xx}
+\end{equation}
+is used as a guide in developing finite-difference methods for parabolic PDEs in general. For the grid $(x_n,t_m)=(nh,mk)$, we shall state three commonly used difference equations for (9.10). All three are two-level equations whereby the solution, known at level $m$, is advanced to level $m+1$.
+\subsection{Explicit (Forward-Difference) Method}
+\begin{equation}
+	\frac{U_{n,m+1}-U_{nm}}{k}=\kappa^2\frac{U_{n+1,m}-2U_{nm}+U_{n-1,m}}{h^2}
+\end{equation}
+or
+\begin{equation}
+	U_{n,m+1}=(1+r\delta_x^2)U_{nm}\qquad(r\equiv\kappa^2k/h^2)
+\end{equation}
+\subsection{Implicit (Backward-Difference) Method}
+\begin{equation}
+	\frac{U_{n,m+1}-U_{nm}}{k}=\kappa^2\frac{U_{n+1,m+1}-2U_{n,m+1}+U_{n-1,m+1}}{h^2}
+\end{equation}
+or
+\begin{equation}
+	(1-r\delta_x^2)U_{n,m+1}=U_{n,m}\qquad(r\equiv\kappa^2k/h^2)
+\end{equation}
+\subsection{Implicit (Crank-Nicolson) Method}
+\begin{equation}
+	\frac{U_{n,m+1}-U_{nm}}{k}=\frac{\kappa^2}{2}\frac{\delta_x^2U_{nm}+\delta_x^2U_{n,m+1}}{h^2}
+\end{equation}
+or
+\begin{equation}
+	(1-r\delta_x^2)U_{n,m+1}=(1+r\delta_x^2)U_{nm}\qquad(r\equiv\kappa^2k/h^2)
+\end{equation}
+\subsection{Error and stability}
+\begin{theorem}
+	The forward-difference method (9.11) has local truncation error $\mathcal{O}(k+h^2)$; it is (conditionally) stable if and only if $r\leq1/2$.
+\end{theorem}
+\begin{theorem}
+	The backward-difference method (9.12) has local truncation error $\mathcal{O}(k+h^2)$; it is stable.
+\end{theorem}
+\begin{theorem}
+	The Crank-Nicolson method (9.13) has local truncation error $\mathcal{O}(k^2+h^2)$; it is stable.
+\end{theorem}
+\subsection{Two-dimensions}
+For the two-dimensional diffusion equation,
+\begin{equation}
+	u_t=\kappa^2(u_{xx}+u_{yy})
+\end{equation}
+let $(x_m,y_n,t_l)=(mh,nh,lk)$ and $U_{mnl}{\approx}u_{mnl}=u(x_m,y_n,t_l)$. The above methods have as their counterparts:
+
 
 \chapter[DM for Hyperbolic Equations]{Difference Methods for Hyperbolic Equations}
 
