@@ -283,7 +283,31 @@ i.e., if any $f$ in $L^2(\Omega)$ can be approximated with arbitrary precision i
 \begin{theorem}
 	If $\mathscr{M}$ is a dense subspace in $L^2(\Omega)$ and if an element $u$ of $L^2(\Omega)$ satisfies $\langle{u,v}\rangle=0$ for all $v$ in $\mathscr{M}$, then $u=0$.
 \end{theorem}
-	
+
+\section{The Calculus of Variations}
+A real-valued function $J$ whose domain of definition is a subset of $L^2(\Omega)$ will be called a \emph{functional}. The fundamental problem of the calculus of variations is, then, to find the extreme values of a given functional $J$ over a specified domain $\mathscr{A}$ in $L^2(\Omega)$.
+\begin{example}\label{ex:variational}
+	(a) For $\Omega$ a bounded set in $\mathbb{R}^2$ having smooth boundary $S$ and for given functions $f$ in $C(\Omega)$ and $g$ in $C(S)$, let $\mathscr{A}\equiv\{u(x,y)\,\mathrm{in}\,H^1(\Omega):u=g\,\mathrm{on}\,S\}$. Minimize
+\begin{equation}
+	J[u]=\int_{\Omega}{(u_x^2+u_y^2-2fu)\,dx\,dy}
+\end{equation}
+over $\mathscr{A}$. (b) For $\Omega$ a bounded set in $\mathbb{R}^n$ with smooth boundary $S$ and for given functions $a_{ij}(\mathbb{x})$ and $f(\mathbb{x})$ in $C(\Omega)$, let $A\equiv\{u\,\mathrm{in}\,H^1(\Omega):u=0\,\mathrm{on}\,S\}$. Minimize
+\begin{equation}
+	J[u]=\int_{\Omega}{{\left(\sum_{i,j=1}^na_{ij}\frac{\partial{u}}{\partial{x_i}}\frac{\partial{u}}{\partial{x_j}}-2fu\right)}\,d\Omega}
+\end{equation}
+\end{example}
+Such problems can be treated in much the same way as extreme-value problems in elementary calculus, if the notion of the derivative is suitably generalized.
+\subsection{Variation of a Functional}
+First, we associate with the domain $\mathscr{A}$ of the functional $J$, a set $\mathscr{M}$ of \emph{comparison functions} such that, for any $u$ in $\mathscr{A}$ and any $v$ in $\mathscr{m}$, $u+{\epsilon}v$ belongs to $\mathscr{A}$ for every real number $\epsilon$. $\mathscr{M}$ is necessarily a subspace of $L^2(\Omega)$.
+\begin{example}
+(a) For $\mathscr{A}$ as in Example~\ref{ex:variational}(a), we may take $\mathscr{M}\equiv\{v\,\mathrm{in}\,H^1(\Omega):v=0\,\mathrm{on}\,S\}$. (b) For $\mathscr{A}$ as in Example~\ref{ex:variational}(b), we may take $\mathscr{M}$ to be identical to $\mathscr{A}$. In general, whenever $\mathscr{A}$ is a \emph{subspace} of $L^2(\Omega)$ and not just a subset as in the first example, we may take $\mathscr{M}\equiv\mathscr{A}$ (for $u$, $v$ in $\mathscr{A}$ the linear combination $u+{\epsilon}v$ is also in $\mathscr{A}$).
+\end{example}
+For $J$ a functional on domain $A$, to which corresponds a set of comparison functions $\mathscr{M}$, let $u$ belong to $\mathscr{A}$ and $v$ belong to $\mathscr{M}$. Then
+\begin{equation}
+	\phi(\epsilon)\equiv{J}[u+{\epsilon}v]
+\end{equation}
+is a real-valued function of the real variable $\epsilon$.
+
 \chapter{Variational Approximation Methods}
 This chapter presents some techniques for constructing approximate solutions to boundary value problems. These techniques are based on the ideas of Chapter 12 and differ markedly from the finite-difference methods of Chapters 9, 10, and 11.
 
