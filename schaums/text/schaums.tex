@@ -334,13 +334,36 @@ Consider functional $J$ with domain $\mathscr{A}$ contained in $L^2(\Omega)$. Su
 \end{equation}
 If $\mathscr{D}$ is nonempty, we call the function $G$ the \emph{gradient of $J$ at $u$}, and write $G=\mathbb{\nabla}J[u]$; the subset $\mathscr{D}$ of $\mathscr{A}$ is called the \emph{domain of the gradient}.\\
 If $u_0$ in $\mathscr{D}$ furnishes a local extremum for $J$, Theorem~\ref{thm:variation} and the definition of the gradient of $J$ imply that $\langle\mathbb{\nabla}J[u_0],v\rangle=0$ for all $v$ in $\mathscr{M}$. But $\mathscr{M}$ is dense in $L^2(\Omega)$, and so, by Theorem~\ref{thm:dense}, $\mathbb{\nabla}J[u_0]=0$. We can, in fact, prove
-\begin{theorem}
+\begin{theorem}\label{thm:eulereqn}
 	If the subspace $\mathscr{M}$ of comparison functions is dense in $L^2(\Omega)$ and if $u_0$ in $\mathscr{A}$ is a local extreme point for $J$, then $u_0$ necessarily belongs to $\mathscr{D}$ and
 	\begin{equation}
 		\mathbb{\nabla}J[u_0]=0
 	\end{equation}
 	(the \emph{Euler equation} for $J$).
 \end{theorem}
+The point of Theorem~\ref{thm:eulereqn} is that to solve a PDE which is the Euler equation of a suitably constructed functional $J$, subject to whatever boundary conditions are part of the definition of the domain $\mathscr{D}$, it is sufficient to minimize $J$ over the class $\mathscr{A}$ of admissible functions. As the smoothness conditions incorporated into the definition of $\mathscr{D}$ appear to be weaker than what is required for a classical solution, the solution of the variational problem is considered to be a \emph{generalized solution} of the boundary value problem. In Section 12.5 we shall develop an even broader notion of the solution of a boundary value problem.
+
+\section{Variational Principles for Eigenvalues and Eigenfunctions}
+Consider the Sturm-Liouville problem (6.13), with $C_2=C_4=0$. Theorem 6.4 describes the eigenvalues and eigenfunctions of this problem. Define
+\begin{equation}
+	\mathscr{A}_0\equiv\{\phi\,\mathrm{in}\,H^1(a,b):\phi(a)=\phi(b)=0\}
+\end{equation}
+and define the functional $J$ on $\mathscr{A}_0$ by
+\begin{equation}
+	J[\phi]\equiv\frac{\int_a^b{[p(x)\phi'(x)^2+q(x)\phi(x)^2]\,dx}}{\int_a^b{r(x)\phi(x)^2\,dx}}
+\end{equation}
+It is easy to show that $\lambda_1\leq{J[\phi]}$ for all $\phi$ in $\mathscr{A}_0$; indeed,
+\begin{equation}
+	\lambda_1=\min\limits_{\phi\in\mathscr{A}_0}J[\phi]
+\end{equation}
+In addition, for $k=1,2,\ldots$, define
+\begin{equation}
+	\mathscr{A}_k\equiv\left\{\phi\,\mathrm{in}\,\mathscr{A}_0:\int_a^b{r(x)\phi(x)u_j(x)\,dx=0}\,(j=1,2,\ldots,k)\right\}
+\end{equation}
+where $u_j(x)$ denotes an eigenfunction of (6.13) corresponding to the eigenvalues $\lambda_j$. Then
+\begin{equation}
+	\lambda_{k+1}=\min\limits_{\phi\in\mathscr{A}_0}J[\phi]\quad(k=1,2,\ldots)
+\end{equation}
 
 
 \chapter{Variational Approximation Methods}
