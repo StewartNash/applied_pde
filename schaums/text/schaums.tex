@@ -366,11 +366,15 @@ where $u_j(x)$ denotes an eigenfunction of (6.13) corresponding to the eigenvalu
 \end{equation}
 The functional (\ref{eq:functional}) is called the \emph{Rayleigh quotient} of the Sturm-Liouville problem (6.13), whose eigenvalues are characterized by the \emph{minimum principles} (\ref{eq:firsteigen}) and (\ref{eq:ktheigen}).\\
 More generally, consider the elliptic boundary value problem
-\begin{align}
+\begin{align}\label{eq:ellipticbvp}
 	-\mathbb{\nabla}\cdot(p(\mathbb{x})\mathbb{\nabla}u(\mathbb{x}))+q(\mathbb{x}u(\mathbb{x})&={\lambda}r(\mathbb{x})u(\mathbb{x})&\quad\mathbb{x}\,\mathrm{in}\,\Omega\\
 	u(\mathbb{x})&=0&\quad\mathbb{x}\,\mathrm{on}\,S
 \end{align}
-where $p(\mathbb{x})>0$, $q(\mathbb{x})$, and $r(\mathbb{x})>0$ are all in $C^1(\bar{\Omega})$.
+where $p(\mathbb{x})>0$, $q(\mathbb{x})$, and $r(\mathbb{x})>0$ are all in $C^1(\bar{\Omega})$. As in the case of the one-dimensional Sturm-Liouville problem, all eigenvalues of (\ref{eq:ellipticbvp}) are real and can be arranged in a countably infinite, increasing sequence. Moreover, weighted eigenfunctions $r^{1/2}u$ belonging to distinct eignevalues are orthogonal; i.e.,
+\begin{equation}
+	\langle{r^{1/2}u_m,r^{1/2}u_n}\rangle\equiv\int_\Omega{r(\mathbb{x})u_m(\mathbb{x})u_n(\mathbb{x})\,d\Omega}=0\quad(m{\neq}n)
+\end{equation}
+
 
 \chapter{Variational Approximation Methods}
 This chapter presents some techniques for constructing approximate solutions to boundary value problems. These techniques are based on the ideas of Chapter 12 and differ markedly from the finite-difference methods of Chapters 9, 10, and 11.
