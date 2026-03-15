@@ -375,7 +375,7 @@ where $p(\mathbb{x})>0$, $q(\mathbb{x})$, and $r(\mathbb{x})>0$ are all in $C^1(
 	\langle{r^{1/2}u_m,r^{1/2}u_n}\rangle\equiv\int_\Omega{r(\mathbb{x})u_m(\mathbb{x})u_n(\mathbb{x})\,d\Omega}=0\quad(m{\neq}n)
 \end{equation}
 The smallest eigenvalue, $\lambda_1$, satisfies
-\begin{equation}
+\begin{equation}\label{eq:smalleigenval}
 	\lambda_1=\min\limits_{\phi\in\mathscr{A}_0}J[\phi]
 \end{equation}
 where
@@ -386,6 +386,16 @@ and where the Rayleigh quotient is given by
 \begin{equation}
 	J[\phi]=\frac{\int_\Omega{[p(\mathbb{x})\mathbb{\nabla}\phi(\mathbb{x})\cdot\mathbb{\nabla}\phi(\mathbb{x})+q(\mathbb{x})\phi(\mathbb{x})^2]\,d\Omega}}{\int_\Omega{r(\mathbb{x})\phi(\mathbb{x})^2\,d\Omega}}
 \end{equation}
+Moreover, for $k=1,2,\ldots$,
+\begin{equation}\label{eq:kthmineigenval}
+	\lambda_{k+1}=\min\limits_{\phi\in\mathscr{A}_k}J[\phi]
+\end{equation}
+where
+\begin{equation}
+	\mathscr{A}_k=\{phi\,\mathrm{in}\,\mathscr{A}_0:{\langle}r^{1/2}\phi,r^{1/2}u_j\rangle=0\quad(1{\leq}j{\leq}k)\}
+\end{equation}
+and $u_j$ denotes an eigenfunction belonging to the eigenvalue $\lambda_j$. It is readily shown (cf. Problem 12.7(b)) that the minima in (\ref{eq:smalleigenval}) and (\ref{eq:kthmineigenval}) are assumed at the eigenfunctions; ie.e, $\lambda_k=J[u_k]$ ($k=1,2,\ldots$).\\
+Minimum principles analogous to (\ref{eq:smalleigenval}) and (\ref{eq:kthmineigenval}) hold when the differential operator in (\ref{eq:ellipticbvp}) is replaced by a general linear, elliptic, differential operator.
 
 \chapter{Variational Approximation Methods}
 This chapter presents some techniques for constructing approximate solutions to boundary value problems. These techniques are based on the ideas of Chapter 12 and differ markedly from the finite-difference methods of Chapters 9, 10, and 11.
