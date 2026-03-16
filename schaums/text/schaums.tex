@@ -397,6 +397,22 @@ where
 and $u_j$ denotes an eigenfunction belonging to the eigenvalue $\lambda_j$. It is readily shown (cf. Problem 12.7(b)) that the minima in (\ref{eq:smalleigenval}) and (\ref{eq:kthmineigenval}) are assumed at the eigenfunctions; ie.e, $\lambda_k=J[u_k]$ ($k=1,2,\ldots$).\\
 Minimum principles analogous to (\ref{eq:smalleigenval}) and (\ref{eq:kthmineigenval}) hold when the differential operator in (\ref{eq:ellipticbvp}) is replaced by a general linear, elliptic, differential operator.
 
+\section{Weak Solutions of Boundary Value Problems}
+Let $\Omega$ denote a bounded region in $\mathbb{R}^2$ with smooth boundary $S$ consisting of complementary arcs $S_1$ and $S_2$. Let $p$, $q$, $f$, $g_1$, $g_2$ denote given functions which are defined and smooth on $\Omega$ and/or on $S$. Finally, define a linear partial differential operator by
+\begin{equation}
+	Lu(x,y)=\nabla^2u+pu_x+qu_y
+\end{equation}
+and consider the mixed boundary value problem
+\begin{align}
+	Lu&=f&\quad\mathrm{in}\,\Omega\\
+	u&=g1&\quad\mathrm{on}\,S_1\\
+	\frac{\partial u}{\partial n}&=g2&\quad\mathrm{on}\,S_2
+\end{align}
+For arbitrary $u$ and $v$ in $C^2(\Omega)$, Green's first identity, (1.7), gives
+\begin{equation}
+	\langle Lu,v\rangle=\int_\Omega{\mathbb{\nabla}u\cdot\mathbb{\nabla}v\,d\Omega}+\int_\Omega{(pu_x+qu_y)v\,d\Omega}-\int_S{v\frac{\partial u}{\partial n}]\,dS}
+\end{equation}
+
 \chapter{Variational Approximation Methods}
 This chapter presents some techniques for constructing approximate solutions to boundary value problems. These techniques are based on the ideas of Chapter 12 and differ markedly from the finite-difference methods of Chapters 9, 10, and 11.
 
